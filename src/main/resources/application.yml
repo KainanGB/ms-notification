@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: ms-email-sender
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9091},${KAFKA_SERVER:localhost:9093},${KAFKA_SERVER:localhost:9094}
+    consumer:
+      client-id: ms-email-service
+      group-id: ${KAFKA_GROUP_ID:EMAIL}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: service.msemailservice.utils.CustomKafkaDeserializer
+      properties:
+        spring.json.trusted.packages: service.msemailservice.dtos.response.MessageDTO
+
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 4
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_NAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+
