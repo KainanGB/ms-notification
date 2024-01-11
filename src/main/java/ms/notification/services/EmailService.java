@@ -1,22 +1,23 @@
-package service.msemailservice.services;
+package ms.notification.services;
 
 import lombok.AllArgsConstructor;
+import ms.notification.dtos.EmailDTO;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-import service.msemailservice.dtos.response.MessageDTO;
 
 @Service
 @AllArgsConstructor
 public class EmailService {
 
     private final JavaMailSenderImpl javaMailSender;
-    public void sendEmail(MessageDTO messageDTO) {
+
+    public void sendEmail(EmailDTO emailDTO) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(messageDTO.from());
-        message.setTo(messageDTO.to());
-        message.setSubject(messageDTO.subject());
-        message.setText(messageDTO.text());
+        message.setFrom(emailDTO.from());
+        message.setTo(emailDTO.to());
+        message.setSubject(emailDTO.subject());
+        message.setText(emailDTO.text());
         javaMailSender.send(message);
     }
 }

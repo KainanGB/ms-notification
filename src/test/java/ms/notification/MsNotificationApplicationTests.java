@@ -1,13 +1,13 @@
-package service.msemailservice;
+package ms.notification;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsEmailServiceApplicationTests {
+class MsNotificationApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

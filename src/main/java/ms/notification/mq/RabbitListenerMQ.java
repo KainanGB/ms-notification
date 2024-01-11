@@ -1,11 +1,11 @@
-package service.msemailservice.mq;
+package ms.notification.mq;
 
 import lombok.AllArgsConstructor;
+import ms.notification.dtos.EmailDTO;
+import ms.notification.services.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import service.msemailservice.dtos.response.MessageDTO;
-import service.msemailservice.services.EmailService;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class RabbitListenerMQ {
     private final EmailService emailService;
 
     @RabbitListener(queues = "authentication.email.queue")
-    public void readMessage(@Payload MessageDTO payload) {
+    public void readMessage(@Payload EmailDTO payload) {
 
         if (Objects.equals(payload.from(), "kainanytbr@gmail.com")) {
             throw new RuntimeException("DEU RUIM AQUI");

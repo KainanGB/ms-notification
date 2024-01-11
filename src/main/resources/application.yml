@@ -1,17 +1,12 @@
 spring:
   application:
-    name: ms-email-sender
+    name: ms-notification
 
   kafka:
-    bootstrap-servers: ${KAFKA_SERVER:localhost:9091},${KAFKA_SERVER:localhost:9093},${KAFKA_SERVER:localhost:9094}
+    bootstrap-servers: ${KAFKA_SERVER_1:localhost:9091},${KAFKA_SERVER_2:localhost:9093},${KAFKA_SERVER_3:localhost:9094}
     consumer:
-      client-id: ms-email-service
-      group-id: ${KAFKA_GROUP_ID:EMAIL}
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: service.msemailservice.utils.CustomKafkaDeserializer
-      properties:
-        spring.json.trusted.packages: service.msemailservice.dtos.response.MessageDTO
+      group-id: ${KAFKA_GROUP_ID:CASINHA}
+
 
   rabbitmq:
     host: localhost
@@ -25,10 +20,10 @@ spring:
           max-attempts: 4
 
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${MAIL_NAME}
-    password: ${MAIL_PASSWORD}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_NAME:kainanytbr@gmail.com}
+    password: ${MAIL_PASSWORD:cnay urni vavv qxas}
     properties:
       mail:
         smtp:
@@ -46,6 +41,6 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${EUREKA_SERVICE_URL:localhost:8761}/eureka/
 
 

@@ -1,4 +1,4 @@
-package service.msemailservice.configurations;
+package ms.notification.configurations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
