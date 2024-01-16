@@ -3,21 +3,9 @@ spring:
     name: ms-notification
 
   kafka:
-    bootstrap-servers: ${KAFKA_SERVER_1:localhost:9091},${KAFKA_SERVER_2:localhost:9093},${KAFKA_SERVER_3:localhost:9094}
+    bootstrap-servers: http://172.20.0.3:9092,http://172.20.0.4:9092,http://172.20.0.2:9092
     consumer:
       group-id: ${KAFKA_GROUP_ID:CASINHA}
-
-
-  rabbitmq:
-    host: localhost
-    username: guest
-    password: guest
-    port: 5672
-    listener:
-      simple:
-        retry:
-          enabled: true
-          max-attempts: 4
 
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
@@ -37,10 +25,10 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    preferIpAddress: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     serviceUrl:
-      defaultZone: http://${EUREKA_SERVICE_URL:localhost:8761}/eureka/
+      defaultZone: http://172.20.0.4:8761/eureka/
 
 

@@ -1,0 +1,41 @@
+FROM maven:3.9.2-eclipse-temurin-17-alpine AS build
+
+WORKDIR /app
+
+
+ARG KAFKA_GROUP_ID
+ARG MAIL_HOST
+ARG MAIL_PORT
+ARG MAIL_NAME
+ARG MAIL_PASSWORD
+ARG DATA_SOURCE_USERNAME
+ARG DATA_SOURCE_PASSWORD
+ARG JWT_SECRET
+
+ENV KAFKA_GROUP_ID=${KAFKA_GROUP_ID}
+ENV MAIL_HOST=${MAIL_HOST}
+ENV MAIL_PORT=${MAIL_PORT}
+ENV MAIL_NAME=${MAIL_NAME}
+ENV MAIL_PASSWORD=${MAIL_PASSWORD}
+ENV DATA_SOURCE_USERNAME=${DATA_SOURCE_USERNAME}
+ENV DATA_SOURCE_PASSWORD=${DATA_SOURCE_PASSWORD}
+ENV JWT_SECRET=${JWT_SECRET}
+
+
+COPY .mvn/ .mvn
+COPY pom.xml ./
+RUN mvn dependency:go-offline
+COPY src ./src
+
+RUN mvn clean package -Dmaven.test.skip.exec
+
+## BUILD JAR
+
+FROM eclipse-temurin:17-alpine
+
+WORKDIR /app
+
+COPY --from=build ./app/target/*.jar ./ms-notification.jar
+
+
+CMD ["java", "-jar", "ms-notification.jar"]
